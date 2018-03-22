@@ -14,32 +14,24 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        val preferences=getSharedPreferences("config",0)
+        val preferences = getSharedPreferences("config", 0)
 
-        val name=preferences.getString("name",null)
-        if(name==null){
-            nameText.text.clear()
-        }else{
-            nameText.setText(name)
-        }
-        val password=preferences.getString("password",null)
-        if(password==null){
-            passwordText.text.clear()
-        }else{
-            passwordText.setText(password)
-        }
+        val name = preferences.getString("name", null)
+        nameText?.setText(name)
+        val password = preferences.getString("password", null)
+        passwordText?.setText(password)
+
         saveButton.setOnClickListener {
-            val editor=preferences.edit()
-            editor.putString("name",nameText.text.toString())
-            editor.putString("password",passwordText.text.toString()).apply()
-            Toast.makeText(this,"保存成功",Toast.LENGTH_SHORT).show()
+            preferences.edit().apply {
+                this.putString("name", nameText.text.toString())
+                this.putString("password", passwordText.text.toString())
+            }.apply()
+            Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show()
         }
+
         checkBox.setOnCheckedChangeListener { _, clicked ->
-            var editor=preferences.edit().putBoolean("show",clicked).apply()
+            preferences.edit().putBoolean("show", clicked).apply()
         }
-        WifiManager.NETWORK_STATE_CHANGED_ACTION
-        var myIntent=Intent(this,MyService::class.java)
-//        startService(myIntent)
     }
 
 }
