@@ -1,37 +1,53 @@
 package com.example.zh.myapplication
 
-import android.content.Intent
-import android.net.wifi.WifiManager
+import android.app.Activity
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+class MainActivity : Activity() {
+    
+    private var name : String = ""
+    private var password : String = ""
+    
+    override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
-
-        val preferences = getSharedPreferences("config", 0)
-
-        val name = preferences.getString("name", null)
-        nameText?.setText(name)
-        val password = preferences.getString("password", null)
-        passwordText?.setText(password)
-
-        saveButton.setOnClickListener {
-            preferences.edit().apply {
-                this.putString("name", nameText.text.toString())
-                this.putString("password", passwordText.text.toString())
-            }.apply()
-            Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show()
+        
+        init()
+        WIFIClient(this, name, password, checkBox.isChecked).login()
+    }
+    
+    override fun onRestart() {
+        super.onRestart()
+        WIFIClient(this, name, password, checkBox.isChecked).login()
+    }
+    
+    private fun init() {
+        val prf = getSharedPreferences("config", 0)
+        
+        with(prf.getString("name", null)
+        ) {
+            if (this != null) {
+                name = this
+                nameText.setText(name)
+            }
         }
-
+        with(prf.getString("password", null)) {
+            if (this != null) {
+                password = this
+                passwordText.setText(password)
+            }
+        }
+        saveButton.setOnClickListener {
+            prf.edit().apply {
+                putString("name", nameText.text.toString())
+                putString("password", passwordText.text.toString())
+            }.apply()
+            Toast.makeText(this, getString(R.string.save_success_tip), Toast.LENGTH_SHORT).show()
+        }
         checkBox.setOnCheckedChangeListener { _, clicked ->
-            preferences.edit().putBoolean("show", clicked).apply()
+            prf.edit().putBoolean("show_tip", clicked).apply()
         }
     }
-
 }

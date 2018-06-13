@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">自动登录WIFI</string>
+    <string name="user_name">学号</string>
+    <string name="user_password">密码:</string>
+    <string name="status_tip">启用提示</string>
+    <string name="save">保存</string>
+    <string name="failure_tip">登录失败</string>
+    <string name="success_tip">成功登录WIFI</string>
+    <string name="save_success_tip">保存成功</string>
+    <string name="cantBeEmpty">name or password can not be empty</string>
 </resources>

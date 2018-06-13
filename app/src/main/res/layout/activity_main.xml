@@ -47,6 +47,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="学号"
                 android:inputType="text|textPersonName" />
         </LinearLayout>
 
@@ -76,6 +77,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="密码"
                 android:inputType="textPassword" />
         </LinearLayout>
 
